@@ -11,7 +11,7 @@ class StoreRutaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreRutaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre'  => 'required|unique:rutas,nombre',
+            'origen'  => 'required',
+            'destino' => 'required',
         ];
     }
 }

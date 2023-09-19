@@ -13,7 +13,7 @@ class RutaController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Ruta::all());
     }
 
     /**
@@ -21,7 +21,8 @@ class RutaController extends Controller
      */
     public function store(StoreRutaRequest $request)
     {
-        //
+        $nuevo = Ruta::create($request->all());
+        return response()->json($nuevo->toArray());
     }
 
     /**
@@ -29,7 +30,7 @@ class RutaController extends Controller
      */
     public function show(Ruta $ruta)
     {
-        //
+        return response()->json($ruta->toArray());
     }
 
     /**
@@ -37,14 +38,25 @@ class RutaController extends Controller
      */
     public function update(UpdateRutaRequest $request, Ruta $ruta)
     {
-        //
+        $ruta->fill($request->all());
+        //var_dump($request->all());
+        $ruta->save();
+        return response()->json($ruta->toArray());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ruta $ruta)
+    public function destroy( $ruta)
     {
-        //
+
+        
+        if(is_null($ruta)){
+            return response()->json(["error"=>"Registro no encontradó $ruta"],404);
+        }else{
+//            $ruta->delete();
+            return response()->json(["sistema"=>"Registro borradó  $ruta"],404);
+        }
+
     }
 }

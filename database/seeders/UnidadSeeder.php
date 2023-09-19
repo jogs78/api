@@ -12,6 +12,12 @@ class UnidadSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+/*
+        $table->string("tipo");
+        $table->string("placas");
+        $table->foreignId("ruta_id")->constrained();
+        
+*/
+
     }
 }

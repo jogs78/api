@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('unidades', function (Blueprint $table) {
             $table->id();
+            $table->string("tipo");
+            $table->string("placas");
+            $table->foreignId("ruta_id")->constrained();
+/*
+            $table->foreign("ruta_id", "fk_ruta")
+            ->on("rutas")
+            ->references("id");
+*/
             $table->timestamps();
         });
     }
