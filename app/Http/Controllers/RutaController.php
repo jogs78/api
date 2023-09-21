@@ -13,7 +13,7 @@ class RutaController extends Controller
      */
     public function index()
     {
-        return response()->json(Ruta::all());
+        return response()->json(Ruta::with('unidades')->get());
     }
 
     /**

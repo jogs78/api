@@ -15,18 +15,21 @@ class RutaSeeder extends Seeder
     public function run(): void
     {
         $ruta = new Ruta();
+        $ruta->id=1;
         $ruta->nombre="91";
         $ruta->origen="Aurrera Terán";
         $ruta->destino="Centarl de abastos";
         $ruta->save();
 
         $ruta = new Ruta();
+        $ruta->id=2;
         $ruta->nombre="42";
         $ruta->origen="Aurrera Terán";
         $ruta->destino="La misión";
         $ruta->save();
 
         $ruta = new Ruta();
+        $ruta->id=3;
         $ruta->nombre="Ruta A";
         $ruta->origen="La carreta";
         $ruta->destino="Prepa 5";

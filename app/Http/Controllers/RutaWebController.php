@@ -15,7 +15,7 @@ class RutaWebController extends Controller
     public function index()
     {
 
-//        $rutas = Ruta::all();
+        $rutas = Ruta::all();
         $response = Http::get('http://api.ittg.mx/api/rutas');
         $rutas2 = $response->collect();
         $rutas = $rutas2->map(function ($elemento) {

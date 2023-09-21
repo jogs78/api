@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RutaSeeder::class,
-//            UnidadSeeder::class,
+            UnidadSeeder::class,
 //            ChoferSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
