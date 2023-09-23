@@ -6,14 +6,14 @@ use App\Http\Requests\StoreRutaRequest;
 use App\Http\Requests\UpdateRutaRequest;
 use App\Models\Ruta;
 
-class RutaController extends Controller
+class RutaApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json(Ruta::with('unidades')->get());
+        return response()->json(Ruta::all());
     }
 
     /**
@@ -47,16 +47,12 @@ class RutaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $ruta)
+    public function destroy($ruta)
     {
-
-        
-        if(is_null($ruta)){
-            return response()->json(["error"=>"Registro no encontradó $ruta"],404);
-        }else{
-//            $ruta->delete();
-            return response()->json(["sistema"=>"Registro borradó  $ruta"],404);
-        }
+        $ruta = Ruta::find($ruta);
+        $ruta->delete();
+//            return response()->json($ruta->toArray());
+        return response()->json(["sistema"=>"Registro borradó  $ruta"],404);
 
     }
 }

@@ -4,24 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Ruta;
 use Illuminate\Support\Facades\Http;
+use Illuminate
 use App\Http\Requests\StoreRutaRequest;
 use App\Http\Requests\UpdateRutaRequest;
 
 class RutaWebController extends Controller
 {
+    private $modo="API";
+//    private $end="http://api.vagrant";
+//private $end="http://192.168.56.106:8000";
+private $end="http://api.ittg.mx";
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
 
-        $rutas = Ruta::all();
-        $response = Http::get('http://api.ittg.mx/api/rutas');
-        $rutas2 = $response->collect();
-        $rutas = $rutas2->map(function ($elemento) {
-            return new Ruta($elemento);
-        });
-
+        if ($this->modo == "WEB"){
+            $rutas = Ruta::all();
+        }else{
+            $response = Http::get("$this->end/api/rutas");
+            $rutas2 = $response->collect();
+            $rutas = $rutas2->map(function ($elemento) {
+                return new Ruta($elemento);
+            });    
+        }
         return view("rutas.index",compact('rutas'));
     }
 
@@ -30,7 +38,7 @@ class RutaWebController extends Controller
      */
     public function create()
     {
-        //
+        return view("rutas.create");
     }
 
     /**
@@ -38,7 +46,17 @@ class RutaWebController extends Controller
      */
     public function store(StoreRutaRequest $request)
     {
-        //
+        if ($this->modo == "WEB"){
+            $ruta = new Ruta($request->all());
+//            $ruta->fill();
+            $ruta->save();    
+            /* falta revisar si efectivamente lo dio de alta */
+        }else{
+            dump("mandare a guardar al url" . "$this->end/api/rutas/");
+            $response = Http::post("$this->end/api/rutas/", $request->all());
+            /* falta revisar si efectivamente lo dio de alta */
+        }
+        return redirect(route("rutas.index"));
     }
 
     /**
@@ -46,7 +64,15 @@ class RutaWebController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if ($this->modo == "WEB"){
+            $ruta = Ruta::find($id);
+            /* falta revisar si efectivamente lo dio de alta */
+        }else{
+            $response = Http::get("$this->end/api/rutas/$id");
+            $datos = $response->json();
+            $ruta =  new Ruta($datos);
+        }
+        return view("rutas.show",compact('ruta'));
     }
 
     /**
@@ -54,7 +80,17 @@ class RutaWebController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        if ($this->modo == "WEB"){
+            $ruta = Ruta::find($id);
+            /* falta revisar si efectivamente lo dio de alta */
+        }else{
+            $response = Http::get("$this->end/api/rutas/$id");
+            $datos = $response->json();
+            $ruta =  new Ruta($datos);
+        }
+
+
+        return view("rutas.edit",compact('ruta'));
     }
 
     /**
@@ -62,7 +98,16 @@ class RutaWebController extends Controller
      */
     public function update(UpdateRutaRequest $request, string $id)
     {
-        //
+        if ($this->modo == "WEB"){
+            $ruta = Ruta::find($id);
+            $ruta->fill($request->all());
+            $ruta->save();    
+            /* falta revisar si efectivamente se actualizo */
+        }else{
+            $response = Http::put("$this->end/api/rutas/$id", $request->all());
+        }
+        return redirect(route("rutas.index"));
+
     }
 
     /**
@@ -70,6 +115,15 @@ class RutaWebController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if ($this->modo == "WEB"){
+            $ruta = Ruta::find($id);
+            $ruta->delete();
+            /* falta revisar si efectivamente se actualizo */
+        }else{
+            $response = Http::delete("$this->end/api/rutas/$id");
+        }
+        echo "borrado";
+//        return redirect(route("rutas.index"));
+
     }
 }

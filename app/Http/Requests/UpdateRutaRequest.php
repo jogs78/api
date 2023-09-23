@@ -22,7 +22,7 @@ class UpdateRutaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre'  => 'required|unique:rutas,nombre',
+            'nombre'  => 'required',
             'origen'  => 'required',
             'destino' => 'required',
         ];
