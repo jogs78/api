@@ -117,10 +117,9 @@ private $end="http://api.ittg.mx";
             $ruta->delete();
             /* falta revisar si efectivamente se actualizo */
         }else{
-            dump("a borrar con:" . "$this->end/api/rutas/$id");
-            $response = Http::delete("$this->end/api/rutas/$id");
+             $response = Http::delete("$this->end/api/rutas/$id");
         }
-//        return redirect(route("rutas.index"));
+        return redirect(route("rutas.index"));
 
     }
 }
