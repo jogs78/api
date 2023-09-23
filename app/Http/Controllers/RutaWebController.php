@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ruta;
 use Illuminate\Support\Facades\Http;
-use Illuminate
-use App\Http\Requests\StoreRutaRequest;
-use App\Http\Requests\UpdateRutaRequest;
+use Illuminate\Http\Request;
 
 class RutaWebController extends Controller
 {
@@ -44,7 +42,7 @@ private $end="http://api.ittg.mx";
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRutaRequest $request)
+    public function store(Request $request)
     {
         if ($this->modo == "WEB"){
             $ruta = new Ruta($request->all());
@@ -52,7 +50,6 @@ private $end="http://api.ittg.mx";
             $ruta->save();    
             /* falta revisar si efectivamente lo dio de alta */
         }else{
-            dump("mandare a guardar al url" . "$this->end/api/rutas/");
             $response = Http::post("$this->end/api/rutas/", $request->all());
             /* falta revisar si efectivamente lo dio de alta */
         }
@@ -96,7 +93,7 @@ private $end="http://api.ittg.mx";
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRutaRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         if ($this->modo == "WEB"){
             $ruta = Ruta::find($id);
@@ -120,9 +117,9 @@ private $end="http://api.ittg.mx";
             $ruta->delete();
             /* falta revisar si efectivamente se actualizo */
         }else{
+            dump("a borrar con:" . "$this->end/api/rutas/$id");
             $response = Http::delete("$this->end/api/rutas/$id");
         }
-        echo "borrado";
 //        return redirect(route("rutas.index"));
 
     }
