@@ -46,14 +46,31 @@ private $end="http://api.ittg.mx";
     {
         if ($this->modo == "WEB"){
             $ruta = new Ruta($request->all());
-//            $ruta->fill();
             $ruta->save();    
             /* falta revisar si efectivamente lo dio de alta */
+            return redirect(route("rutas.index"));
         }else{
-            $response = Http::post("$this->end/api/rutas/", $request->all());
-            /* falta revisar si efectivamente lo dio de alta */
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->post("$this->end/api/rutas/", $request->all());
+            switch ($response->status()) {
+                case '200':
+                    return redirect(route("rutas.index"));
+                    break;
+                case '422':
+                    return back()->withErrors($response->json('errors'))->withInput();
+                    break;                
+                default:
+                    # code...
+                    break;
+            }
+            //status 422 no se puede procesar
+            //successful true
+
+            dump($response->status());
+
+            echo "si quiere ir <a href='"  . route("rutas.index") ."'>listado</a>";
         }
-        return redirect(route("rutas.index"));
     }
 
     /**

@@ -27,4 +27,20 @@ class StoreRutaRequest extends FormRequest
             'destino' => 'required',
         ];
     }
+
+    /* agregar */
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es requerido',
+            'nombre.unique' => 'El nombre ya ha sido usado',
+            'origen.required' => 'El origen es requerido',
+            'destino.required' => 'El destino es requerido',
+        ];
+    }
 }
