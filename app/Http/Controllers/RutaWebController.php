@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ruta;
+use App\Models\Unidad;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class RutaWebController extends Controller
 {
     private $modo="API";
-//    private $end="http://api.vagrant";
-//private $end="http://192.168.56.106:8000";
-private $end="http://api.ittg.mx";
+    private $end="";
+    private $headers=[];
+    
+    public function __construct()
+    {
+        $this->end = config('api.api_endpoint');
+        $this->headers = config('api.api_headers');
+    }
+    
 
     /**
      * Display a listing of the resource.
@@ -19,15 +26,17 @@ private $end="http://api.ittg.mx";
     public function index()
     {
 
+
         if ($this->modo == "WEB"){
             $rutas = Ruta::all();
         }else{
-            $response = Http::get("$this->end/api/rutas");
+            $response = Http::withHeaders($this->headers)->get("$this->end/api/rutas");
             $rutas2 = $response->collect();
             $rutas = $rutas2->map(function ($elemento) {
                 return new Ruta($elemento);
             });    
         }
+
         return view("rutas.index",compact('rutas'));
     }
 
@@ -50,9 +59,7 @@ private $end="http://api.ittg.mx";
             /* falta revisar si efectivamente lo dio de alta */
             return redirect(route("rutas.index"));
         }else{
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-            ])->post("$this->end/api/rutas/", $request->all());
+            $response = Http::withHeaders($this->headers)->post("$this->end/api/rutas/", $request->all());
             switch ($response->status()) {
                 case '200':
                     return redirect(route("rutas.index"));
@@ -82,11 +89,21 @@ private $end="http://api.ittg.mx";
             $ruta = Ruta::find($id);
             /* falta revisar si efectivamente lo dio de alta */
         }else{
-            $response = Http::get("$this->end/api/rutas/$id");
+            $response = Http::withHeaders($this->headers)->get("$this->end/api/rutas/$id");
             $datos = $response->json();
             $ruta =  new Ruta($datos);
+
+            $response = Http::withHeaders($this->headers)->get("$this->end/api/rutas/$id/unidades");
+            $unidades2 = $response->collect();
+            $unidades = $unidades2->map(function ($elemento) {
+                return new Unidad($elemento);
+            });    
+
+            
+            
+
         }
-        return view("rutas.show",compact('ruta'));
+        return view("rutas.show",compact('ruta','unidades'));
     }
 
     /**
@@ -118,7 +135,7 @@ private $end="http://api.ittg.mx";
             $ruta->save();    
             /* falta revisar si efectivamente se actualizo */
         }else{
-            $response = Http::put("$this->end/api/rutas/$id", $request->all());
+            $response = Http::withHeaders($this->headers)->put("$this->end/api/rutas/$id", $request->all());
         }
         return redirect(route("rutas.index"));
 
@@ -134,7 +151,7 @@ private $end="http://api.ittg.mx";
             $ruta->delete();
             /* falta revisar si efectivamente se actualizo */
         }else{
-             $response = Http::delete("$this->end/api/rutas/$id");
+             $response = Http::withHeaders($this->headers)->delete("$this->end/api/rutas/$id");
         }
         return redirect(route("rutas.index"));
 

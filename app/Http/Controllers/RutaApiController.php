@@ -52,7 +52,14 @@ class RutaApiController extends Controller
         $ruta = Ruta::find($ruta);
         $ruta->delete();
 //            return response()->json($ruta->toArray());
-        return response()->json(["sistema"=>"Registro borradó  $ruta"],404);
+        return response()->json(["sistema"=>"Registro borradó  $ruta"]);
 
     }
+
+    public function unidades($ruta)
+    {
+        $ruta = Ruta::find($ruta);
+//        return response()->json(["sistema"=>"unidades de la ruta:  $ruta"]);
+        return response()->json($ruta->unidades);
+    }    
 }

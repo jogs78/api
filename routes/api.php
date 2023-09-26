@@ -19,4 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('rutas',RutaApiController::class);
+//Route::apiResource('rutaz',RutaApiController::class);
+Route::apiResource('rutas', RutaApiController::class)->names([
+    'index' => 'apiRutas.index',
+    'store' => 'apiRutas.store',
+    'show' => 'apiRutas.show',
+    'update' => 'apiRutas.update',
+    'destroy' => 'apiRutas.destroy',
+]);
+Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades');

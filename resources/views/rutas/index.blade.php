@@ -17,7 +17,7 @@
                     </td>
     
                     <td>
-                        <a href="{{route("rutas.show",$ruta->id) }}">
+                        <a href="{{route("rutas.show", $ruta->id)}}">
                             {{$ruta->nombre}}
                         </a>
                     </td>
