@@ -13,7 +13,8 @@ class UnidadController extends Controller
      */
     public function index()
     {
-        //
+
+        return response(Unidad::all(), 200)->header('Content-Type', 'application/json');
     }
 
     /**

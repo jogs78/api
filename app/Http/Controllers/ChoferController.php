@@ -13,7 +13,7 @@ class ChoferController extends Controller
      */
     public function index()
     {
-        //
+        return response(Chofer::all(), 200)->header('Content-Type', 'application/json');
     }
 
     /**
@@ -27,9 +27,10 @@ class ChoferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Chofer $chofer)
-    {
-        //
+    public function show($id)
+    {   
+        $chofer = Chofer::find($id);
+        return response($chofer, 200)->header('Content-Type', 'application/json');
     }
 
     /**

@@ -13,7 +13,8 @@ class RutaApiController extends Controller
      */
     public function index()
     {
-        return response()->json(Ruta::all());
+
+        return response(Ruta::all(), 200)->header('Content-Type', 'application/json');
     }
 
     /**

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ChoferController;
+use App\Http\Controllers\PuertaController;
 use App\Http\Controllers\RutaApiController;
+use App\Http\Controllers\UnidadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +29,12 @@ Route::apiResource('rutas', RutaApiController::class)->names([
     'show' => 'apiRutas.show',
     'update' => 'apiRutas.update',
     'destroy' => 'apiRutas.destroy',
-]);
+])->middleware('conToken:Concesionario');
+
+Route::apiResource('unidades',UnidadController::class)->middleware('conToken:Chofer');
+
+Route::get('choferes',[ChoferController::class,"index"])->middleware('conToken');
+Route::get('choferes/{chofere}',[ChoferController::class,"show"])->middleware('conToken:Concesionario|Chofer');
+
 Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades');
+Route::post('validar',[PuertaController::class,'validar']);
