@@ -15,7 +15,7 @@ class UsuarioSeeder extends Seeder
     {
         $nuevo = new Usuario(['nombre'=>'Chonito','clave' => bcrypt('Chonito'), 'rol'=>'Concesionario' ]);
         $nuevo->save();
-        $nuevo = new Usuario(['nombre'=>'Carlos','clave' => bcrypt('Carlos') ]);
+        $nuevo = new Usuario(['nombre'=>'Carlos','clave' => bcrypt('Carlos') , 'rol'=>'Concesionario' ]);
         $nuevo->save();
         $nuevo = new Usuario(['nombre'=>'Claudia','clave' => bcrypt('Claudia') ]);
         $nuevo->save();

@@ -31,10 +31,13 @@ Route::apiResource('rutas', RutaApiController::class)->names([
     'destroy' => 'apiRutas.destroy',
 ])->middleware('conToken:Concesionario');
 
-Route::apiResource('unidades',UnidadController::class)->middleware('conToken:Chofer');
+//Route::apiResource('unidades',UnidadController::class)->middleware('conToken:Chofer');
+
+Route::get('unidades',[UnidadController::class,"index"])->middleware('conToken:Concesionario');
+Route::get('unidades/{id}',[UnidadController::class,"show"])->middleware('conToken:Concesionario|Chofer');
 
 Route::get('choferes',[ChoferController::class,"index"])->middleware('conToken');
-Route::get('choferes/{chofere}',[ChoferController::class,"show"])->middleware('conToken:Concesionario|Chofer');
+Route::get('choferes/{id}',[ChoferController::class,"show"])->middleware('conToken:Chofer|Gerente');
 
-Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades');
+Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades')->middleware('conToken:Concesionario');
 Route::post('validar',[PuertaController::class,'validar']);

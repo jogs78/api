@@ -19,6 +19,7 @@ class RutaSeeder extends Seeder
         $ruta->nombre="91";
         $ruta->origen="Aurrera Terán";
         $ruta->destino="Centarl de abastos";
+        $ruta->propietario=1;
         $ruta->save();
 
         $ruta = new Ruta();
@@ -26,6 +27,7 @@ class RutaSeeder extends Seeder
         $ruta->nombre="42";
         $ruta->origen="Aurrera Terán";
         $ruta->destino="La misión";
+        $ruta->propietario=2;
         $ruta->save();
 
         $ruta = new Ruta();
@@ -33,6 +35,7 @@ class RutaSeeder extends Seeder
         $ruta->nombre="Ruta A";
         $ruta->origen="La carreta";
         $ruta->destino="Prepa 5";
+        $ruta->propietario=3;
         $ruta->save();
 
     }

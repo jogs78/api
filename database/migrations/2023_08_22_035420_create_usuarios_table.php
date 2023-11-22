@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->unique();
             $table->string('clave');
-            $table->enum('rol',['Concesionario','Chofer'])->default('Chofer');
+            $table->enum('rol',['Concesionario','Chofer','Gerente'])->default('Chofer');
             $table->string('token')->nullable()->default(null);
 
             $table->timestamps();

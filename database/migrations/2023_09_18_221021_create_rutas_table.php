@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("nombre");
             $table->string("origen")->nullable();
             $table->string("destino")->nullable();
+            $table->bigInteger('propietario');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isNull;
 
@@ -22,18 +23,20 @@ class Asegurar {
         // Normalmente, el token estará en el formato "Bearer tu_token_aqui"
         $token = str_replace('Bearer ', '', $authorizationHeader);
         $usuario = Usuario::where('token',$token)->first();
+        $ret = "";
         if($usuario){
+            Auth::onceUsingId($usuario->id);
             if (is_null($rol)) {
                 return $next($request);
             }else{
                 if(strpos("|$rol",$usuario->rol)!=false){
                     return $next($request);
                 }else{
-                    return response()->json(["errors"=> "Token no valido"],403);
+                    return response()->json(["errors"=> "El token no es de este tipo de usuario $ret"],403);
                 }
             }
         }else{
-            return response()->json(["errors"=> "Token no valido" ],401);
+            return response()->json(["errors"=> "Debe autenticar primero $ret" ],401);
         }
     }
 }

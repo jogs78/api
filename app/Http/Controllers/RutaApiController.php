@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Policies\RutaPolicy;
 use App\Http\Requests\StoreRutaRequest;
 use App\Http\Requests\UpdateRutaRequest;
 use App\Models\Ruta;
-
+use Illuminate\Support\Facades\Gate;
 class RutaApiController extends Controller
 {
     /**
@@ -59,8 +60,30 @@ class RutaApiController extends Controller
 
     public function unidades($ruta)
     {
+
+        $puede = Gate::policy(RutaPolicy::class,'unidades')->allows('unidaes', $ruta);
+
         $ruta = Ruta::find($ruta);
-//        return response()->json(["sistema"=>"unidades de la ruta:  $ruta"]);
-        return response()->json($ruta->unidades);
+        $ret = [
+            'mensaje' => "FULANO: " .auth()->user()->nombre . " PUEDE:  '" . $puede ."'" ,
+            'valor' => $ruta->unidades
+        ];
+        return response()->json($ret);
+
+
+
+        if ($this->authorizeForUser(auth()->user(), 'unidades')) {
+            // Lógica del controlador si la autorización tiene éxito
+                $ret = [
+                    'mensaje' => "",
+                    'valor' => $ruta->unidades
+                ];
+                return response()->json($ret);
+        } else {
+            // Manejo de la autorización fallida
+            return response()->json(['mensaje' => 'Autorización fallida'], 403);
+        }
+
+
     }    
 }

@@ -20,6 +20,8 @@ class PuertaController extends Controller
             if(Hash::check($clave, $usuario->clave)){
                 $usuario->token = Str::random();
                 $usuario->save();
+
+                Auth::login($usuario);
                 return response()->json(["success"=> $usuario],200);
             }else{
                 return response()->json(["errors"=> "clave o usuario no encontrado"],400);
