@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Policies\RutaPolicy;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreRutaRequest;
 use App\Http\Requests\UpdateRutaRequest;
 use App\Models\Ruta;
@@ -58,30 +59,35 @@ class RutaApiController extends Controller
 
     }
 
-    public function unidades($ruta)
+    public function unidades(Request $request, $ruta)
     {
 
-        $puede = Gate::policy(RutaPolicy::class,'unidades')->allows('unidaes', $ruta);
-
+//        $puede = Gate::policy(RutaPolicy::class,'listUnidades')->allows('unidaes', $ruta);
+        $puede = "veremos";
         $ruta = Ruta::find($ruta);
-        $ret = [
-            'mensaje' => "FULANO: " .auth()->user()->nombre . " PUEDE:  '" . $puede ."'" ,
-            'valor' => $ruta->unidades
-        ];
-        return response()->json($ret);
+
+        try{
+            $this->authorize('listarUnidades',$ruta);
+            $puede = "SI";
+        } catch (\Throwable $th) {
+            $puede = "NO";
+        }
 
 
-
-        if ($this->authorizeForUser(auth()->user(), 'unidades')) {
+        if ($puede=="SI") {
             // Lógica del controlador si la autorización tiene éxito
-                $ret = [
-                    'mensaje' => "",
-                    'valor' => $ruta->unidades
-                ];
-                return response()->json($ret);
+            $ret = [
+                'mensaje' => auth()->user()->nombre . " PUEDE:  '" . $puede ."'" ,
+                'valor' => $ruta->unidades
+            ];
+            return response()->json($ret);
         } else {
             // Manejo de la autorización fallida
-            return response()->json(['mensaje' => 'Autorización fallida'], 403);
+            $ret = [
+                'mensaje' => auth()->user()->nombre . " PUEDE:  '" . $puede ."'" ,
+                'valor' => "no se puede"
+            ];
+            return response()->json($ret,403);
         }
 
 

@@ -30,7 +30,7 @@ class UnidadController extends Controller
      */
     public function show(Unidad $unidad)
     {
-        //
+        return response($unidad, 200)->header('Content-Type', 'application/json');
     }
 
     /**

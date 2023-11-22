@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Ruta;
-use App\Models\User;
+use App\Models\Usuario as User;
 use Illuminate\Auth\Access\Response;
 
 class RutaPolicy
@@ -63,4 +63,13 @@ class RutaPolicy
     {
         //
     }
+
+    /**
+     * Determine whether the user can view the units into de route.
+     */
+    public function listarUnidades(User $user, Ruta $ruta): bool
+    {
+        return $user->id == $ruta->propietario;
+    }
+
 }

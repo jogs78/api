@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\RutaWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('politica', [PruebaController::class, "politica"]);
 Route::resource('rutas',RutaWebController::class);

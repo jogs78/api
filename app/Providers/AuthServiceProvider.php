@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Ruta;
+use App\Policies\RutaPolicy;
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Ruta::class => RutaPolicy::class,
+    
     ];
 
     /**
@@ -21,6 +25,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }
