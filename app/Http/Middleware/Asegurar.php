@@ -24,6 +24,11 @@ class Asegurar {
         // Normalmente, el token estará en el formato "Bearer tu_token_aqui"
         $token = str_replace('Bearer ', '', $authorizationHeader);
         $usuario = Usuario::where('token',$token)->first();
+        /*
+            checar la hora actual y ver el $usuario->expires_at
+            si ya expiro el token return 401 
+            si no continuar
+        */
         $ret = "";
         if($usuario){
             Auth::onceUsingId($usuario->id);

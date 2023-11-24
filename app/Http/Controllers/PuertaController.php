@@ -18,7 +18,13 @@ class PuertaController extends Controller
         $usuario = Usuario::where('nombre',$nombre)->first();
         if($usuario){
             if(Hash::check($clave, $usuario->clave)){
+                /*
+                mientras (token este repetido){
+                    token = nuevo token
+                }
+                */
                 $usuario->token = Str::random();
+                //$usuario->expires_at = fecha_futura 
                 $usuario->save();
                 return response()->json(["success"=> $usuario],200);
             }else{
