@@ -62,7 +62,6 @@ class RutaApiController extends Controller
     public function unidades(Request $request, $ruta)
     {
 
-//        $puede = Gate::policy(RutaPolicy::class,'listUnidades')->allows('unidaes', $ruta);
         $puede = "veremos";
         $ruta = Ruta::find($ruta);
 
@@ -80,7 +79,7 @@ class RutaApiController extends Controller
                 'mensaje' => auth()->user()->nombre . " PUEDE:  '" . $puede ."'" ,
                 'valor' => $ruta->unidades
             ];
-            return response()->json($ret);
+            return response()->json($ret,200);
         } else {
             // Manejo de la autorización fallida
             $ret = [

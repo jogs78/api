@@ -33,11 +33,11 @@ Route::apiResource('rutas', RutaApiController::class)->names([
 
 //Route::apiResource('unidades',UnidadController::class)->middleware('conToken:Chofer');
 
-Route::get('unidades',[UnidadController::class,"index"])->middleware('conToken:Concesionario');
-Route::get('unidades/{id}',[UnidadController::class,"show"])->middleware('conToken:Concesionario|Chofer');
+Route::get('unidades',[UnidadController::class,"index"])->middleware('conToken');
+Route::get('unidades/{id}',[UnidadController::class,"show"])->middleware('conToken');
 
 Route::get('choferes',[ChoferController::class,"index"])->middleware('conToken');
-Route::get('choferes/{id}',[ChoferController::class,"show"])->middleware('conToken:Chofer|Gerente');
+Route::get('choferes/{id}',[ChoferController::class,"show"])->middleware('conToken');
 
-Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades')->middleware('conToken:Concesionario');
+Route::get('rutas/{ruta}/unidades/',[RutaApiController::class, 'unidades'])->name('apiRutas.unidades')->middleware('conToken');
 Route::post('validar',[PuertaController::class,'validar']);

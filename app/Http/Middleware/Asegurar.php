@@ -16,8 +16,9 @@ class Asegurar {
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $rol=null): Response
+    public function handle(Request $request, Closure $next): Response
     {
+        
         $authorizationHeader = $request->header('Authorization');
         // Realizar la lógica de verificación del token aquí
         // Normalmente, el token estará en el formato "Bearer tu_token_aqui"
@@ -26,15 +27,7 @@ class Asegurar {
         $ret = "";
         if($usuario){
             Auth::onceUsingId($usuario->id);
-            if (is_null($rol)) {
-                return $next($request);
-            }else{
-                if(strpos("|$rol",$usuario->rol)!=false){
-                    return $next($request);
-                }else{
-                    return response()->json(["errors"=> "El token no es de este tipo de usuario $ret"],403);
-                }
-            }
+            return $next($request);
         }else{
             return response()->json(["errors"=> "Debe autenticar primero $ret" ],401);
         }
